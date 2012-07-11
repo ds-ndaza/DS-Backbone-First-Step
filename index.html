@@ -3,48 +3,47 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Backbone First Step</title>
+
 	<link media="screen" rel="stylesheet" type="text/css" href="resources/css/app.css" />
+
+	<script id="jqueryjs" type="text/javascript" src="sdk/jquery/jquery-1.7.2.min.js"></script>
 	<script id="underscorejs" type="text/javascript" src="sdk/underscore/underscore.js"></script>
 	<script id="backbonejs" type="text/javascript" src="sdk/backbone/backbone.js"></script>
 </head>
 <body>
+	<div id="container"></div>
 	<script type="text/javascript">
 
 		/*
-		Models are the heart of any JavaScript application, containing the 
-		interactive data as well as a large part of the logic surrounding it: 
-		conversions, validations, computed properties, and access control.
+		Backbone views are used to reflect what your applications' data models look like. 
+		They are also used to listen to events and react accordingly.
 		*/
 
-		Channel = Backbone.Model.extend({
-			defaults: {
-				id: 0,
-				name: '',
-				num: 0,
-				logo: ''
-        	},
-			initialize:function(){
-				this.bind("change:id", function(){
-					var name = this.get("id");
-					alert("ID de canal cambiado a '" + name + "'" );
-				});
+		ChannelsList = Backbone.View.extend({
+			initialize:function( )	{
+				this.render( );
+			},
+			render: function( )	{
+				var variables = { 
+					logo: "http://ppawebservices.com/channel_logos/cartoon.jpg",  
+					name: "Cartoon Network",
+					num: 300
+				};
+				// Compile the template using underscore
+				var template = _.template( '<img src="<%= logo %>" /><h1><%= name %></h1><h6><b>Canales:</b> <%= num %></h6>', variables );
+				// Load the compiled HTML into the Backbone "el"
+				this.$el.html( template );
+			},
+			events: {
+				"click h1": "viewChannel"  
+			},
+			viewChannel: function( event ){
+				// Element clicked, you can access the element that was clicked with event.currentTarget
+				alert( $(event.currentTarget).text() );
 			}
 		});
 
-		
-		var channel = new Channel( {id:3} );
-
-		console.log( channel );
-
-		console.log( channel.get( 'id' ) );
-
-		channel.set( 'id', 5 );
-		console.log( channel.get( 'id' ) );
-		
-		channel.attributes.id = 6;
-		console.log( channel.get( 'id' ) );
-
-
+		var channelList = new ChannelsList( { el: "#container" } );
 	</script>
 </body>
 </html>
