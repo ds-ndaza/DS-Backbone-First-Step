@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html manifest="" lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Backbone First Step</title>
+	<link media="screen" rel="stylesheet" type="text/css" href="resources/css/app.css" />
+	<script id="underscorejs" type="text/javascript" src="sdk/underscore/underscore.js"></script>
+	<script id="backbonejs" type="text/javascript" src="sdk/backbone/backbone.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+
+		/*
+		Models are the heart of any JavaScript application, containing the 
+		interactive data as well as a large part of the logic surrounding it: 
+		conversions, validations, computed properties, and access control.
+		*/
+
+		Channel = Backbone.Model.extend({
+			defaults: {
+				id: 0,
+				name: '',
+				num: 0,
+				logo: ''
+        	},
+			initialize:function(){
+				this.bind("change:id", function(){
+					var name = this.get("id");
+					alert("ID de canal cambiado a '" + name + "'" );
+				});
+			}
+		});
+
+		
+		var channel = new Channel( {id:3} );
+
+		console.log( channel );
+
+		console.log( channel.get( 'id' ) );
+
+		channel.set( 'id', 5 );
+		console.log( channel.get( 'id' ) );
+		
+		channel.attributes.id = 6;
+		console.log( channel.get( 'id' ) );
+
+
+	</script>
+</body>
+</html>
