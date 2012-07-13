@@ -23,11 +23,15 @@
 
 		var AppRouter = Backbone.Router.extend({
 			routes: {
+				"post/:id": "getPost",
 				"*actions": "defaultRoute" // matches http://example.com/#anything-here
 			},
 			defaultRoute: function( actions )	{
 				// The variable passed in matches the variable in the route definition "actions"
 				console.log( 'Action: ' + actions ); 
+			},
+			getPost: function( id )	{
+				console.log( 'ID: ' + id ); 
 			}
 		});
 
@@ -42,16 +46,16 @@
 				this.render( );
 			},
 			render: function( )	{
-				console.log( this.options );
-				
 				var template = _.template( '<h3><a href="<%= link %>" ><%= text %></a></h3>', this.options );
 				this.$el.append( template );
 			}
 		});
 
-		var a = new OptionNav ( {el: '#container', link:'#part',text:'Part'} );
-		var b = new OptionNav ( {el: '#container', link:'#part"2"',text:'Part"2"'} );
+		var a = new OptionNav ( {el: '#container', link:'#part-1',text:'Part'} );
+		var b = new OptionNav ( {el: '#container', link:'#part-2',text:'Part"2"'} );
 		var c = new OptionNav ( {el: '#container', link:'#category/option',text:'category/option'} );
+		var c = new OptionNav ( {el: '#container', link:'#post/1',text:'Post 1'} );
+		var c = new OptionNav ( {el: '#container', link:'#post/1564',text:'Post 1223524'} );
 
 	</script>
 </body>
