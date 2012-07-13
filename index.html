@@ -15,44 +15,35 @@
 	<script type="text/javascript">
 
 		/*
-			Backbone routers are used for routing your applications URL's when using hash tags(#). 
-			In the traditional MVC sense they don't neccesarily fit the semantics and if you have 
-			read "What is a view?" it will elaborate on this point. Though a Backbone "router" is 
-			still very useful for any application/feature that needs URL routing/history capabilities.
+		Backbone views are used to reflect what your applications' data models look like. 
+		They are also used to listen to events and react accordingly.
 		*/
 
-		var AppRouter = Backbone.Router.extend({
-			routes: {
-				"*actions": "defaultRoute" // matches http://example.com/#anything-here
-			},
-			defaultRoute: function( actions )	{
-				// The variable passed in matches the variable in the route definition "actions"
-				console.log( 'Action: ' + actions ); 
-			}
-		});
-
-		// Initiate the router
-		var app_router = new AppRouter;
-		// Start Backbone history a neccesary step for bookmarkable URL's
-		Backbone.history.start();
-
-
-		OptionNav = Backbone.View.extend({
+		ChannelsList = Backbone.View.extend({
 			initialize:function( )	{
 				this.render( );
 			},
 			render: function( )	{
-				console.log( this.options );
-				
-				var template = _.template( '<h3><a href="<%= link %>" ><%= text %></a></h3>', this.options );
-				this.$el.append( template );
+				var variables = { 
+					logo: "http://ppawebservices.com/channel_logos/cartoon.jpg",  
+					name: "Cartoon Network",
+					num: 300
+				};
+				// Compile the template using underscore
+				var template = _.template( '<img src="<%= logo %>" /><h1><%= name %></h1><h6><b>Canales:</b> <%= num %></h6>', variables );
+				// Load the compiled HTML into the Backbone "el"
+				this.$el.html( template );
+			},
+			events: {
+				"click h1": "viewChannel"  
+			},
+			viewChannel: function( event ){
+				// Element clicked, you can access the element that was clicked with event.currentTarget
+				alert( $(event.currentTarget).text() );
 			}
 		});
 
-		var a = new OptionNav ( {el: '#container', link:'#part',text:'Part'} );
-		var b = new OptionNav ( {el: '#container', link:'#part"2"',text:'Part"2"'} );
-		var c = new OptionNav ( {el: '#container', link:'#category/option',text:'category/option'} );
-
+		var channelList = new ChannelsList( { el: "#container" } );
 	</script>
 </body>
 </html>
